@@ -1,0 +1,16 @@
+homeassistant:
+  customize:
+    group.woshi_light_view:
+      order: 1
+    group.dating_light_view:
+      order: 2
+    group.book_room_light:
+      order: 3
+    group.dating_switch_view:
+      order: 4
+    group.dating_sensor_view:
+      order: 5
+    group.bookroom_sensor_view:
+      order: 6
+    group.cctv_view:
+      order: 7

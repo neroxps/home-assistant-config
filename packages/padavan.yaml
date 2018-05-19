@@ -1,0 +1,28 @@
+# device_tracker:
+#   - platform: padavanwrt
+#     host: 192.168.1.1
+#     interval_seconds: 30
+#     consider_home: 180
+#     username: root
+#     password: !secret route_password
+#     track_new_devices: no
+
+
+# group:
+#   family_member:
+#     view: no
+#     name: "家庭成员"
+#     entities:
+#       - sensor.nero
+#       - sensor.rachel
+#       - sensor.baba
+#       - sensor.mama
+#       - sensor.meilan2
+#   family_member_drives:
+#     view: no
+#     name: "手机追踪"
+#     entities:
+#       - device_tracker.iphone
+#       - device_tracker.android121e58e8e083d81a
+#       - device_tracker.plkal10d7463d9216d75483
+#       - device_tracker.android73b80b3ef81f5bff

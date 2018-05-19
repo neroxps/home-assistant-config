@@ -1,0 +1,4 @@
+xiaomi_aqara:
+  gateways:
+   - mac: !secret xiaomi_aqara_gateways_mac
+     key: !secret xiaomi_aqara_gateways_key

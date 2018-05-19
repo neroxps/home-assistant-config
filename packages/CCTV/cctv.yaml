@@ -1,0 +1,45 @@
+homeassistant:
+  customize:
+    camera.lxdm_cctv:
+      friendly_name: '楼下大门监控'
+      homebridge_hidden: true
+    
+    camera.lt_cctv:
+      friendly_name: '楼梯监控'
+      homebridge_hidden: true
+    
+    camera.hw_cctv:
+      friendly_name: '户外监控'
+      homebridge_hidden: true
+
+    camera.home_cctv:
+      friendly_name: '家里监控'
+      homebridge_hidden: true
+
+camera:
+  - platform: ffmpeg
+    name: "lxdm_cctv"
+    input: !secret lxdm_cctv_rtsp_url
+    extra_arguments: -max_muxing_queue_size 9999
+  - platform: ffmpeg
+    name: "hw_cctv"
+    input: !secret hw_cctv_rtsp_url
+    extra_arguments: -max_muxing_queue_size 9999
+  - platform: ffmpeg
+    name: "lt_cctv"
+    input: !secret lt_cctv_rtsp_url
+    extra_arguments: -max_muxing_queue_size 9999
+  - platform: ffmpeg
+    name: "home_cctv"
+    input: -rtsp_transport tcp -i rtsp://192.168.1.108:8554/unicast
+    extra_arguments: -max_muxing_queue_size 9999
+
+group:
+  cctv_view:
+    view: no
+    name: '视频'
+    entities:
+      - camera.lxdm_cctv
+      - camera.lt_cctv
+      - camera.hw_cctv
+      - camera.home_cctv

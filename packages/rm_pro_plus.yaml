@@ -1,0 +1,18 @@
+switch:
+  - platform: broadlink
+    name: rm_pro_plus
+    host: 192.168.1.147
+    mac: '34:ea:34:44:33:32'
+    timeout: 15
+    switches:
+      fangdao:
+        friendly_name: "fangdao"
+        command_on: !secret fangdao_command_on
+        command_off: !secret fangdao_command_off
+homeassistant:
+  customize:
+    switch.fangdao:
+      friendly_name: '防盗'
+      homebridge_hidden: true
+      icon: mdi:lock
+

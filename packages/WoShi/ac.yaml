@@ -1,0 +1,16 @@
+climate:
+  - platform: xiaomi_miio
+    name: mi_acpartner
+    host: 192.168.1.4
+    token: !secret mi_acpartner
+    target_sensor: sensor.woshi_wendu
+    scan_interval: 60
+
+homeassistant:
+  customize:
+    climate.mi_acpartner:
+        friendly_name: '卧室空调'
+        homebridge_hidden: false
+        homebridge_name: '卧室空调'
+        icon: mdi:air-conditioner
+

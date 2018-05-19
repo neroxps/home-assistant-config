@@ -1,0 +1,23 @@
+sensor:
+  - platform: command_line
+    name: "HA Ver"
+    command: 'curl -Ls https://raw.githubusercontent.com/home-assistant/hassio/master/version.json |grep "homeassistant" |grep  -Eo "([.0-9]).([0-9])+.([0-9])"'
+    scan_interval: 600
+homeassistant:
+  customize:
+    sensor.ha_ver:
+      friendly_name: 'HA 最新版本号'
+      homebridge_hidden: false
+      homebridge_name: 'HA 最新版本号'
+      icon: mdi:home-assistant
+
+automation:
+  - alias: Homeassistant version notify
+    trigger:
+      - platform: state
+        entity_id: sensor.ha_ver
+    action:
+      - service: notify.ios_iphone
+        data_template:
+          title: "HA版本更新"
+          message: "HA最新版本为 {{ states('sensor.ha_ver') }}"

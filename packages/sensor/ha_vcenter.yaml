@@ -1,0 +1,78 @@
+sensor:
+  - platform: ha_vcenter
+    scan_interval: 60
+    vchost: 192.168.1.60
+    username: root
+    password: !secret esxi_password
+    datastore:
+      - type: SSD2
+      - type: DATA
+    esxi:
+      - type: !secret esxi_url
+    vm:
+      - type: 'Synology6.1'
+      - type: WIN7
+      - type: Docker
+      - type: LEDE
+group:
+  # esxi_system_info:
+  #   view: no
+  #   name: 'ESXI_INFO'
+  #   entities:
+  #     - sensor.esxineroxpscn_esxi_cpu_usage
+  #     - sensor.esxineroxpscn_esxi_uptime
+  #     - sensor.esxineroxpscn_esxi_memory_freePercent
+  #     - sensor.esxineroxpscn_esxi_net_if_out
+  #     - sensor.esxineroxpscn_esxi_net_if_in
+
+
+  # disk_data_space_view:
+  #   view: no
+  #   name: 'ESXI_INFO'
+  #   entities:
+  #     - sensor.ssd2_datastore_freePercent
+  #     - sensor.data_datastore_freePercent
+
+  synology61_view:
+    view: no
+    name: '群晖'
+    entities:
+      - sensor.synology61_vm_cpu_usage
+      - sensor.synology61_vm_memory_freePercent
+
+  win7_view:
+    view: no
+    name: 'WIN7'
+    entities:
+      - sensor.win7_vm_uptime
+      - sensor.win7_vm_cpu_usage
+      - sensor.win7_vm_memory_freePercent
+      - sensor.win7_vm_datastore_io_write_bytes
+      - sensor.win7_vm_datastore_io_read_bytes
+      - sensor.win7_vm_net_if_out
+      - sensor.win7_esxi_net_if_in
+
+  docker_view:
+    view: no
+    name: 'docker'
+    entities:
+      - sensor.docker_vm_uptime
+      - sensor.docker_vm_cpu_usage
+      - sensor.docker_vm_memory_freePercent
+      - sensor.docker_vm_datastore_io_write_bytes
+      - sensor.docker_vm_datastore_io_read_bytes
+      - sensor.docker_vm_net_if_out
+      - sensor.docker_esxi_net_if_in
+
+  lede_view:
+    view: no
+    name: 'ikuai'
+    entities:
+      - sensor.lede_vm_uptime
+      - sensor.lede_vm_cpu_usage
+      - sensor.lede_vm_memory_freePercent
+      - sensor.lede_vm_datastore_io_write_bytes
+      - sensor.lede_vm_datastore_io_read_bytes
+      - sensor.lede_vm_net_if_out
+      - sensor.lede_esxi_net_if_in
+

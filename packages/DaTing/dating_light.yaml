@@ -1,0 +1,59 @@
+light:
+  ################################大厅################################
+  #大厅小灯
+  - platform: mqtt
+    name: "dt_light_008c3a69_ch1"
+    state_topic: "hassmart/switch/hassmart_3key_8C3A69_1/state"
+    command_topic: "hassmart/switch/hassmart_3key_8C3A69_1/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  
+  #大厅灯带
+  - platform: mqtt
+    name: "dt_light_008c3a69_ch2"
+    state_topic: "hassmart/switch/hassmart_3key_8C3A69_2/state"
+    command_topic: "hassmart/switch/hassmart_3key_8C3A69_2/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  
+  #大厅大灯
+  - platform: mqtt
+    name: "dt_light_008c3a69_ch3"
+    state_topic: "hassmart/switch/hassmart_3key_8C3A69_3/state"
+    command_topic: "hassmart/switch/hassmart_3key_8C3A69_3/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  
+homeassistant:
+  customize:
+    light.dt_light_008c3a69_ch1:
+        friendly_name: '小灯'
+        homebridge_hidden: false
+        homebridge_name: '小灯'
+        icon: mdi:lightbulb
+    light.dt_light_008c3a69_ch2:
+        friendly_name: '灯带'
+        homebridge_hidden: false
+        homebridge_name: '灯带'
+        icon: mdi:lightbulb
+    light.dt_light_008c3a69_ch3:
+        friendly_name: '大灯'
+        homebridge_hidden: false
+        homebridge_name: '大灯'
+        icon: mdi:lightbulb
+
+group:
+  dating_light_view:
+    view: no
+    name: '客厅灯'
+    entities:
+      - light.dt_light_008c3a69_ch1
+      - light.dt_light_008c3a69_ch2
+      - light.dt_light_008c3a69_ch3
+

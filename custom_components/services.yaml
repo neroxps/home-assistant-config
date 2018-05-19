@@ -1,0 +1,9 @@
+send:
+  description: 小爱同学TTS.{"message":"hello","miai_num":"0"}
+  fields:
+    miai_num:
+      description: 指定播放声音的音箱,从0开始(可选参数,默认为0).
+      example: '0'
+    message:
+      description: TTS内容.
+      example: '您好，米爱'

@@ -1,0 +1,57 @@
+# switch:
+#   # 大厅电视柜排插
+#   - platform: broadlink
+#     host: 192.168.1.81
+#     mac: '34:ea:34:f1:66:58'
+#     friendly_name: "DaTing_DianShiGui"
+#     type: mp1
+#     slots:
+#       slot_1: 'drive1'
+#       slot_2: 'drive2'
+#       slot_3: 'drive3'
+#       slot_4: 'drive4'
+
+switch:
+  # 大厅电视柜排插
+  - platform: broadlink_mp1
+    host: 192.168.1.81
+    mac: '34:ea:34:f1:66:58'
+    friendly_name: "DaTing_DianShiGui"
+    alias:
+      s1: drive1
+      s2: drive2
+      s3: drive3
+      s4: drive4
+
+homeassistant:
+  customize:
+    switch.drive1:
+        friendly_name: '功放'
+        homebridge_hidden: false
+        homebridge_name: '功放'
+        icon: mdi:music
+    switch.drive2:
+        friendly_name: '电视机'
+        homebridge_hidden: false
+        homebridge_name: '电视机'
+        icon: mdi:youtube-tv
+    switch.drive3:
+        friendly_name: '机顶盒'
+        homebridge_hidden: false
+        homebridge_name: '机顶盒'
+        icon: mdi:airplay
+    switch.drive4:
+        friendly_name: '备用'
+        homebridge_hidden: false
+        homebridge_name: '备用'
+        icon: mdi:switch
+
+group:
+  dating_switch_view:
+    view: no
+    name: '电视柜排插'
+    entities:
+      - switch.drive1
+      - switch.drive2
+      - switch.drive3
+      - switch.drive4

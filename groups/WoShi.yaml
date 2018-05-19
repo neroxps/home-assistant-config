@@ -1,0 +1,7 @@
+WoShi:
+  view: yes
+  name: '卧室'
+  entities:
+    - group.woshi_light_view
+    - group.woshi_wenshidu_view
+    - climate.mi_acpartner

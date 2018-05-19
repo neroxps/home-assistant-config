@@ -1,0 +1,38 @@
+homeassistant:
+  customize:
+    binary_sensor.motion_sensor_158d0001f48e30:
+      friendly_name: '大厅-运动传感器-1'
+      homebridge_hidden: false
+      homebridge_name: '大厅-运动传感器-1'
+      icon: mdi:run
+    binary_sensor.motion_sensor_158d0001f49309:
+      friendly_name: '大厅-运动传感器-2'
+      homebridge_hidden: false
+      homebridge_name: '大厅-运动传感器-2'
+      icon: mdi:run
+    binary_sensor.motion_sensor_158d0001f49310:
+      friendly_name: '大厅-运动传感器-3'
+      homebridge_hidden: false
+      homebridge_name: '大厅-运动传感器-3'
+      icon: mdi:run
+    binary_sensor.motion_sensor_158d0001f49f08:
+      friendly_name: '大厅-运动传感器-4'
+      homebridge_hidden: false
+      homebridge_name: '大厅-运动传感器-4'
+      icon: mdi:run
+    binary_sensor.motion_sensor_158d0001f4a155:
+      friendly_name: '大厅-运动传感器-5'
+      homebridge_hidden: false
+      homebridge_name: '大厅-运动传感器-5'
+      icon: mdi:run
+
+group:
+  dating_sensor_view:
+    view: no
+    name: '客厅传感器'
+    entities:
+      - binary_sensor.motion_sensor_158d0001f48e30
+      - binary_sensor.motion_sensor_158d0001f49309
+      - binary_sensor.motion_sensor_158d0001f49310
+      - binary_sensor.motion_sensor_158d0001f49f08
+      - binary_sensor.motion_sensor_158d0001f4a155

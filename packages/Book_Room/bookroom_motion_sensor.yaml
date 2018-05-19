@@ -1,0 +1,13 @@
+homeassistant:
+  customize:
+    binary_sensor.motion_sensor_158d0001657354:
+      friendly_name: '书房-运动传感器'
+      homebridge_hidden: false
+      homebridge_name: '书房-运动传感器'
+      icon: mdi:run
+group:
+  bookroom_sensor_view:
+    view: no
+    name: '书房传感器'
+    entities:
+      - binary_sensor.motion_sensor_158d0001657354

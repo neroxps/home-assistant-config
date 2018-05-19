@@ -1,0 +1,11 @@
+############人面识别############
+# - platform: microsoft_face_detect
+#   source:
+#     - entity_id: camera.ipcamera
+#       name: face_test
+
+# - platform: microsoft_face_identify
+#   group: family
+#   source:
+#     - entity_id: camera.ipcamera
+#       name: face_recognition

@@ -1,0 +1,68 @@
+sensor.iphone_battery_level:
+  name:
+  platform: ios
+  unique_id: level_iPhone
+sensor.nero_hau_ipad_battery_state:
+  name:
+  platform: ios
+  unique_id: state_nero_hau_ipad
+sensor.nero_hau_ipad_battery_level:
+  name:
+  platform: ios
+  unique_id: level_nero_hau_ipad
+sensor.iphone_battery_level_2:
+  name:
+  platform: ios
+  unique_id: level_iphone
+sensor.iphone_battery_state:
+  name:
+  platform: ios
+  unique_id: state_iPhone
+sensor.iphone_battery_state_2:
+  name:
+  platform: ios
+  unique_id: state_iphone
+binary_sensor.motion_sensor_158d0001657354:
+  name: ''
+  platform: xiaomi_aqara
+  unique_id: status158d0001657354
+binary_sensor.motion_sensor_158d0001f49f08:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001f49f08
+binary_sensor.motion_sensor_158d0001f4a155:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001f4a155
+binary_sensor.motion_sensor_158d0001f48e30:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001f48e30
+binary_sensor.motion_sensor_158d0001f49310:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001f49310
+binary_sensor.motion_sensor_158d0001f49309:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001f49309
+binary_sensor.wall_switch_158d00017115d5:
+  name:
+  platform: xiaomi_aqara
+  unique_id: channel_0158d00017115d5
+binary_sensor.door_window_sensor_158d0001f9e7ad:
+  name:
+  platform: xiaomi_aqara
+  unique_id: status158d0001f9e7ad
+sensor.illumination_7811dca47e55:
+  name:
+  platform: xiaomi_aqara
+  unique_id: illumination7811dca47e55
+light.gateway_light_7811dca47e55:
+  name:
+  platform: xiaomi_aqara
+  unique_id: rgb7811dca47e55
+climate.mi_acpartner:
+  name:
+  platform: xiaomi_miio
+  unique_id: lumi.acpartner.v2-34:CE:00:96:57:A6

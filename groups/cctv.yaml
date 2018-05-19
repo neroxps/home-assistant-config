@@ -1,0 +1,6 @@
+CCTV:
+  view: yes
+  name: '监控'
+  entities:
+    - group.cctv_view
+    - switch.fangdao

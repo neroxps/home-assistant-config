@@ -1,0 +1,97 @@
+automation:
+#大厅小灯自动开
+  - alias: DaTingLight AutoTurnON
+    # hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f48e30 #传感器从有人到无人。
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f49309 #传感器从有人到无人。
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f49310 #传感器从有人到无人。
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f49f08 #传感器从有人到无人。
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f4a155 #传感器从有人到无人。
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: light.dt_light_008c3a69_ch1
+          state: 'off'
+        - condition: time
+          after: '19:00:00'
+          before: '06:00:00'
+        #- condition: numeric_state
+        #  entity_id: sensor.illumination_7811dca47e55
+        #  below: 50
+    action:
+      - service: light.turn_on
+        entity_id: light.dt_light_008c3a69_ch1
+  
+  #大厅小灯自动关
+  - alias: DaTingLight AutoTurnOff
+    hide_entity: true
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f48e30 #传感器从有人到无人。
+        from: 'on'
+        to: 'off'
+        for: 00:03:00
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f49309 #传感器从有人到无人。
+        from: 'on'
+        to: 'off'
+        for: 00:03:00
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f49310 #传感器从有人到无人。
+        from: 'on'
+        to: 'off'
+        for: 00:03:00
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f49f08 #传感器从有人到无人。
+        from: 'on'
+        to: 'off'
+        for: 00:03:00
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f4a155 #传感器从有人到无人。
+        from: 'on'
+        to: 'off'
+        for: 00:03:00
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: light.dt_light_008c3a69_ch1
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.motion_sensor_158d0001f48e30
+          state: 'off'
+        - condition: state
+          entity_id: binary_sensor.motion_sensor_158d0001f49309
+          state: 'off'
+        - condition: state
+          entity_id: binary_sensor.motion_sensor_158d0001f49310
+          state: 'off'
+        - condition: state
+          entity_id: binary_sensor.motion_sensor_158d0001f49f08
+          state: 'off'
+        - condition: state
+          entity_id: binary_sensor.motion_sensor_158d0001f4a155
+          state: 'off'
+        - condition: state
+          entity_id: binary_sensor.TV
+          state: 'off'
+    action:
+      - service: light.turn_off
+        entity_id: light.dt_light_008c3a69_ch1

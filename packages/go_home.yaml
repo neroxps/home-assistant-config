@@ -1,0 +1,21 @@
+automation:
+  - alias: go_home
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.door_window_sensor_158d0001f9e7ad
+        from: 'off'
+        to: 'on'
+    action:
+      - service: notify.ios_iphone
+        data:
+          title: "大门情况"
+          message: "客厅大门被打开"
+          data: 
+            push:
+              category: camera
+            entity_id: camera.home_cctv
+            hied-thumbnail: true
+      - service: hello_miai.send
+        data_template:
+          message: "欢迎主人回家。"
+          miai_num: "0"

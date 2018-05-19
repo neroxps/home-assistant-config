@@ -1,0 +1,47 @@
+sensor:
+  - platform: mqtt
+    name: "woshi_wendu"
+    state_topic: "tele/woshi_wenshidu/SENSOR"
+    value_template: "{{ value_json['DHT22'].Temperature }}"
+    unit_of_measurement: "°C"
+
+  - platform: mqtt
+    name: "woshi_shidu"
+    state_topic: "tele/woshi_wenshidu/SENSOR"
+    value_template: "{{ value_json['DHT22'].Humidity }}"
+    unit_of_measurement: "%"
+
+homeassistant:
+  customize:
+    sensor.woshi_wendu:
+      friendly_name: '卧室温度'
+      homebridge_hidden: false
+      homebridge_name: '卧室温度'
+      icon: mdi:temperature-celsius
+
+    sensor.woshi_shidu:
+      friendly_name: '卧室湿度'
+      homebridge_hidden: false
+      homebridge_name: '卧室湿度'
+      icon: mdi:water
+    history_graph.ws_wendu_shidu:
+      friendly_name: '卧室环境曲线图'
+      homebridge_hidden: false
+group:
+  woshi_wenshidu_view:
+    view: no
+    name: '卧室环境'
+    entities:
+      - sensor.woshi_wendu
+      - sensor.woshi_shidu
+      - history_graph.ws_wendu_shidu
+
+#温湿度历史曲线图
+history_graph:
+  gr1:
+    name: ws_wendu_shidu
+    entities:
+      - sensor.woshi_wendu
+      - sensor.woshi_shidu
+    hours_to_show: 720
+    refresh: 60

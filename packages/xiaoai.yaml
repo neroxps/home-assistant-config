@@ -1,0 +1,3 @@
+hello_miai:
+  miid: !secret mi_id
+  password: !secret mi_password

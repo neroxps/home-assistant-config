@@ -1,0 +1,23 @@
+homeassistant:
+  customize:
+    light.book_room_008ca801:
+      friendly_name: '书房灯'
+      homebridge_hidden: false
+      homebridge_name: '书房灯'
+      icon: mdi:lightbulb
+
+light:
+  - platform: mqtt
+    name: "book_room_008ca801"
+    state_topic: "hassmart/switch/hassmart_1key_8CA801_1/state"
+    command_topic: "hassmart/switch/hassmart_1key_8CA801_1/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+group:
+  book_room_light:
+    view: no
+    name: '书房灯'
+    entities:
+      - light.book_room_008ca801

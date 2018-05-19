@@ -1,0 +1,106 @@
+homeassistant:
+  # 后面的文字是注释，被系统忽略。
+  # 智能家居系统的名字，显示在主界面顶部。
+  name: NeroHome
+  # 下面填入纬度和经度，计算太阳升起和设定时间所需位置，越精确越好。
+  latitude: 22.522390000000005
+  longitude: 113.38168833333333 # 海拔高度用于修正天气参数和日出日落时间参数 (默认单位是：米)。
+  elevation: 37
+  # 度量衡单位制式（metric）是公制，（imperial）是英制。
+  unit_system: metric
+  # 时区，从这里选择你的：http://en.wikipedia.org/wiki/List_of_tz_database_time_zones，一般不需要修改。
+  time_zone: Asia/Shanghai
+  #下面这个区域，用于自定义设备属性，后期文章会有涉及。
+  customize_domain:
+    automation:
+      initial_state: true
+  customize:
+    group.all_automations:
+      hidden: false
+      friendly_name: '所有自动化'
+  #customize: !include customize.yaml
+  packages: !include_dir_named packages
+  
+#在网页界面的首页显示简介（那一大段英文），不想看到的话，请在前面加上#号。
+#introduction:
+
+http:
+  # 给系统网页的登录加上一个密码，先去掉下面这行的#号，然后把PASSWORD改成你想要的密码。
+  api_password: !secret http_password
+
+# 升级提示，当 HomeAssitant 有新版本发布的时候，“日出日落”图标会变成（Update）字样
+updater:
+
+# 系统自动发现新的设备
+discovery:
+
+# 启动浏览器的语音命令
+conversation:
+
+# 在系统数据库中保存“历史数据”
+history:
+
+# 在logbook查看所有的“已发生事项”
+logbook:
+
+# 设置
+config:
+# Hass.io
+#hassio:
+
+# 太阳“跟踪器”，也就是“日出日落时间”
+sun:
+
+ios:
+
+panel_custom:
+  - name: inkwavemap
+    sidebar_title: '墨澜地图'
+    sidebar_icon: mdi:map
+    url_path: inkwavemap
+
+panel_iframe:
+  tmall_bot_x1_device:
+    title: '天猫精灵设备管理'
+    icon: mdi:robot
+    url: !secret tmall_bot_x1_device_url
+
+# 数据库
+recorder:
+  #purge_interval: 365
+  purge_keep_days: 365
+  db_url: !secret mysql_url
+
+
+# sensor:
+
+# dlna:
+
+downloader:
+  download_dir: downloads
+  
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
+
+#microsoft_face:
+#  api_key: !secret microsoft_face_api_key
+#  azure_region: westcentralus
+#  timeout: 60
+
+#android_ip_webcam:
+#  - host: 192.168.1.179
+#    port: 8080
+#    name: IPCamera
+#    username: admin
+#    password: 12345678
+#    sensors:
+#      - light
+#    switches:
+#      - torch
+#panel_iframe:
+#  nodered_flows:
+#    title: 'Node-RED Flows'
+#    url: 'http://192.168.1.62:1880'
+#    icon: mdi:nodejs
+
+group: !include_dir_merge_named groups

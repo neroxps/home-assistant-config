@@ -1,0 +1,1043 @@
+sensor:
+  - platform: CaiyunweatherSE
+    name: caiyun
+    devices:
+    api_key: !secret caiyun_api_key
+    ui_devices:
+      - zone.home
+    ui: True
+    alert: True
+
+
+    monitored_conditions:
+      realtime:
+        - temperature
+        - skycon
+        - cloudrate
+        - aqi
+        - humidity
+        - pm25
+        - o3
+        - co
+        - pm10
+        - no2
+        - pres
+        - so2
+      precipitation:
+        - nearest_precipitation_distance
+        - nearest_precipitation_intensity
+        - local_precipitation_intensity
+        - local_datasource
+        - wind_direction
+        - wind_speed
+
+      hourly:
+        - description
+        - skycon
+        - cloudrate
+        - aqi
+        - humidity
+        - pm25
+        - precipitation
+        - wind
+        - temperature
+        - precipitation8h
+
+      minutely:
+        - description
+        - probability_0
+        - probability_1
+        - probability_2
+        - probability_3
+        - probability_4
+        - probability_5
+        - precipitation_2h
+        - precipitation
+
+      daily:
+        - coldRisk
+        - temperature_max
+        - temperature_avg
+        - temperature_min
+        - skycon
+        - cloudrate_max
+        - cloudrate_avg
+        - cloudrate_min
+        - aqi_max
+        - aqi_avg
+        - aqi_min
+        - humidity_max
+        - humidity_avg
+        - humidity_min
+        - sunset
+        - sunrise
+        - ultraviolet
+        - pm25_max
+        - pm25_avg
+        - pm25_min
+        - dressing
+        - carWashing
+        - precipitation_max
+        - precipitation_avg
+        - precipitation_min
+        - wind_max
+        - wind_avg
+        - wind_min
+        - wind_direction_max
+        - wind_direction_avg
+        - wind_direction_min
+
+      day:
+        - day1
+        - day2
+        - day3
+        - day4
+      alarm:
+        - rainstorm
+        - precipitation
+        - typhoon
+        - high_temp
+        - low_temp
+        - aqi
+        - pm25
+
+script:
+  download_caiyundata:
+    sequence:
+      - service: sensor.download_caiyun_weatherdata_forecast
+      - delay: 00:00:03
+      - service: sensor.download_caiyun_weatherdata_realtime
+
+
+
+group:
+  caiyunweather:
+    name: 彩云天气
+    view: yes
+    icon: mdi:weather-partlycloudy
+    entities:
+      - group.caiyunAlarm
+      - group.caiyunRealtime
+      - group.caiyunMinutely
+      - group.caiyunHourly
+      - group.caiyunDaily
+      - group.caiyunday
+
+
+
+  caiyunAlarm:
+    name: 彩云天气预警
+    view: no
+    entities:
+      - sensor.caiyun_alarm_rainstorm
+      - sensor.caiyun_alarm_precipitation
+      - sensor.caiyun_hourly_precipitation8h
+      - sensor.caiyun_alarm_typhoon
+      - sensor.caiyun_alarm_aqi
+      - sensor.caiyun_alarm_pm25
+      - sensor.caiyun_alarm_high_temp
+      - sensor.caiyun_alarm_low_temp
+      - sensor.caiyun_alert_alert
+
+  caiyunRealtime:
+    name: 彩云即时天气
+    view: no
+    entities:
+      - script.download_caiyundata
+      - sensor.caiyun_realtime_temperature
+      - sensor.caiyun_realtime_skycon
+      - sensor.caiyun_realtime_cloudrate
+      - sensor.caiyun_realtime_aqi
+      - sensor.caiyun_realtime_humidity
+      - sensor.caiyun_realtime_pm10
+      - sensor.caiyun_realtime_pm25
+      - sensor.caiyun_realtime_o3
+      - sensor.caiyun_realtime_co
+      - sensor.caiyun_realtime_so2
+      - sensor.caiyun_realtime_no2
+      - sensor.caiyun_realtime_pres
+      - sensor.caiyun_precipitation_nearest_precipitation_distance
+      - sensor.caiyun_precipitation_nearest_precipitation_intensity
+      - sensor.caiyun_precipitation_local_precipitation_intensity
+      - sensor.caiyun_precipitation_local_datasource
+      - sensor.caiyun_precipitation_wind_direction
+      - sensor.caiyun_precipitation_wind_speed
+      - sensor.caiyun_realtime_update_realtime_update
+      - weather.caiyunweatherui_home
+  caiyunHourly:
+    name: 彩云小时天气
+    view: no
+    entities:
+      - sensor.caiyun_hourly_description
+      - sensor.caiyun_hourly_skycon
+      - sensor.caiyun_hourly_cloudrate
+      - sensor.caiyun_hourly_aqi
+      - sensor.caiyun_hourly_humidity
+      - sensor.caiyun_hourly_pm25
+      - sensor.caiyun_hourly_precipitation
+      - sensor.caiyun_hourly_wind
+      - sensor.caiyun_hourly_temperature
+
+  caiyunMinutely:
+    name: 彩云分钟天气
+    view: no
+    entities:
+      - sensor.caiyun_minutely_description
+      - sensor.caiyun_minutely_probability_0
+      - sensor.caiyun_minutely_probability_1
+      - sensor.caiyun_minutely_probability_2
+      - sensor.caiyun_minutely_probability_3
+      - sensor.caiyun_minutely_probability_4
+      - sensor.caiyun_minutely_probability_5
+      - sensor.caiyun_minutely_precipitation
+      - sensor.caiyun_minutely_precipitation_2h
+  caiyunDaily:
+    name: 彩云今日天气
+    view: no
+    entities:
+      - sensor.caiyun_forecast_update_forecast_update
+      - sensor.caiyun_daily_coldrisk
+      - sensor.caiyun_daily_temperature_max
+      - sensor.caiyun_daily_temperature_avg
+      - sensor.caiyun_daily_temperature_min
+      - sensor.caiyun_daily_skycon
+      - sensor.caiyun_daily_cloudrate_max
+      - sensor.caiyun_daily_cloudrate_avg
+      - sensor.caiyun_daily_cloudrate_min
+      - sensor.caiyun_daily_aqi_max
+      - sensor.caiyun_daily_aqi_avg
+      - sensor.caiyun_daily_aqi_min
+      - sensor.caiyun_daily_humidity_max
+      - sensor.caiyun_daily_humidity_avg
+      - sensor.caiyun_daily_humidity_min
+      - sensor.caiyun_daily_sunset
+      - sensor.caiyun_daily_sunrise
+      - sensor.caiyun_daily_ultraviolet
+      - sensor.caiyun_daily_pm25_max
+      - sensor.caiyun_daily_pm25_avg
+      - sensor.caiyun_daily_pm25_min
+      - sensor.caiyun_daily_dressing
+      - sensor.caiyun_daily_carwashing
+      - sensor.caiyun_daily_precipitation_max
+      - sensor.caiyun_daily_precipitation_avg
+      - sensor.caiyun_daily_precipitation_min
+      - sensor.caiyun_daily_wind_max
+      - sensor.caiyun_daily_wind_avg
+      - sensor.caiyun_daily_wind_min
+      - sensor.caiyun_daily_wind_direction_max
+      - sensor.caiyun_daily_wind_direction_avg
+      - sensor.caiyun_daily_wind_direction_min
+
+  caiyunday1:
+    name: 彩云明日天气
+    view: no
+    icon: mdi:calendar-clock
+    control: hidden
+    entities:
+      - sensor.caiyun_day1_coldrisk
+      - sensor.caiyun_day1_temperature_max
+      - sensor.caiyun_day1_temperature_avg
+      - sensor.caiyun_day1_temperature_min
+      - sensor.caiyun_day1_skycon
+      - sensor.caiyun_day1_cloudrate_max
+      - sensor.caiyun_day1_cloudrate_avg
+      - sensor.caiyun_day1_cloudrate_min
+      - sensor.caiyun_day1_aqi_max
+      - sensor.caiyun_day1_aqi_avg
+      - sensor.caiyun_day1_aqi_min
+      - sensor.caiyun_day1_humidity_max
+      - sensor.caiyun_day1_humidity_avg
+      - sensor.caiyun_day1_humidity_min
+      - sensor.caiyun_day1_sunset
+      - sensor.caiyun_day1_sunrise
+      - sensor.caiyun_day1_ultraviolet
+      - sensor.caiyun_day1_pm25_max
+      - sensor.caiyun_day1_pm25_avg
+      - sensor.caiyun_day1_pm25_min
+      - sensor.caiyun_day1_dressing
+      - sensor.caiyun_day1_carwashing
+      - sensor.caiyun_day1_precipitation_max
+      - sensor.caiyun_day1_precipitation_avg
+      - sensor.caiyun_day1_precipitation_min
+      - sensor.caiyun_day1_wind_max
+      - sensor.caiyun_day1_wind_avg
+      - sensor.caiyun_day1_wind_min
+      - sensor.caiyun_day1_wind_direction_max
+      - sensor.caiyun_day1_wind_direction_avg
+      - sensor.caiyun_day1_wind_direction_min
+
+
+
+  caiyunday2:
+    name: 彩云后日天气
+    view: no
+    icon: mdi:calendar-clock
+    control: hidden
+    entities:
+      - sensor.caiyun_day2_coldrisk
+      - sensor.caiyun_day2_temperature_max
+      - sensor.caiyun_day2_temperature_avg
+      - sensor.caiyun_day2_temperature_min
+      - sensor.caiyun_day2_skycon
+      - sensor.caiyun_day2_cloudrate_max
+      - sensor.caiyun_day2_cloudrate_avg
+      - sensor.caiyun_day2_cloudrate_min
+      - sensor.caiyun_day2_aqi_max
+      - sensor.caiyun_day2_aqi_avg
+      - sensor.caiyun_day2_aqi_min
+      - sensor.caiyun_day2_humidity_max
+      - sensor.caiyun_day2_humidity_avg
+      - sensor.caiyun_day2_humidity_min
+      - sensor.caiyun_day2_sunset
+      - sensor.caiyun_day2_sunrise
+      - sensor.caiyun_day2_ultraviolet
+      - sensor.caiyun_day2_pm25_max
+      - sensor.caiyun_day2_pm25_avg
+      - sensor.caiyun_day2_pm25_min
+      - sensor.caiyun_day2_dressing
+      - sensor.caiyun_day2_carwashing
+      - sensor.caiyun_day2_precipitation_max
+      - sensor.caiyun_day2_precipitation_avg
+      - sensor.caiyun_day2_precipitation_min
+      - sensor.caiyun_day2_wind_max
+      - sensor.caiyun_day2_wind_avg
+      - sensor.caiyun_day2_wind_min
+      - sensor.caiyun_day2_wind_direction_max
+      - sensor.caiyun_day2_wind_direction_avg
+      - sensor.caiyun_day2_wind_direction_min
+
+  caiyunday3:
+    name: 彩云大后日天气
+    view: no
+    icon: mdi:calendar-clock
+    control: hidden
+    entities:
+      - sensor.caiyun_day3_coldrisk
+      - sensor.caiyun_day3_temperature_max
+      - sensor.caiyun_day3_temperature_avg
+      - sensor.caiyun_day3_temperature_min
+      - sensor.caiyun_day3_skycon
+      - sensor.caiyun_day3_cloudrate_max
+      - sensor.caiyun_day3_cloudrate_avg
+      - sensor.caiyun_day3_cloudrate_min
+      - sensor.caiyun_day3_aqi_max
+      - sensor.caiyun_day3_aqi_avg
+      - sensor.caiyun_day3_aqi_min
+      - sensor.caiyun_day3_humidity_max
+      - sensor.caiyun_day3_humidity_avg
+      - sensor.caiyun_day3_humidity_min
+      - sensor.caiyun_day3_sunset
+      - sensor.caiyun_day3_sunrise
+      - sensor.caiyun_day3_ultraviolet
+      - sensor.caiyun_day3_pm25_max
+      - sensor.caiyun_day3_pm25_avg
+      - sensor.caiyun_day3_pm25_min
+      - sensor.caiyun_day3_dressing
+      - sensor.caiyun_day3_carwashing
+      - sensor.caiyun_day3_precipitation_max
+      - sensor.caiyun_day3_precipitation_avg
+      - sensor.caiyun_day3_precipitation_min
+      - sensor.caiyun_day3_wind_max
+      - sensor.caiyun_day3_wind_avg
+      - sensor.caiyun_day3_wind_min
+      - sensor.caiyun_day3_wind_direction_max
+      - sensor.caiyun_day3_wind_direction_avg
+      - sensor.caiyun_day3_wind_direction_min
+
+  caiyunday4:
+    name: 彩云第五日天气
+    view: no
+    icon: mdi:calendar-clock
+    entities:
+      - sensor.caiyun_day4_coldrisk
+      - sensor.caiyun_day4_temperature_max
+      - sensor.caiyun_day4_temperature_avg
+      - sensor.caiyun_day4_temperature_min
+      - sensor.caiyun_day4_skycon
+      - sensor.caiyun_day4_cloudrate_max
+      - sensor.caiyun_day4_cloudrate_avg
+      - sensor.caiyun_day4_cloudrate_min
+      - sensor.caiyun_day4_aqi_max
+      - sensor.caiyun_day4_aqi_avg
+      - sensor.caiyun_day4_aqi_min
+      - sensor.caiyun_day4_humidity_max
+      - sensor.caiyun_day4_humidity_avg
+      - sensor.caiyun_day4_humidity_min
+      - sensor.caiyun_day4_sunset
+      - sensor.caiyun_day4_sunrise
+      - sensor.caiyun_day4_ultraviolet
+      - sensor.caiyun_day4_pm25_max
+      - sensor.caiyun_day4_pm25_avg
+      - sensor.caiyun_day4_pm25_min
+      - sensor.caiyun_day4_dressing
+      - sensor.caiyun_day4_carwashing
+      - sensor.caiyun_day4_precipitation_max
+      - sensor.caiyun_day4_precipitation_avg
+      - sensor.caiyun_day4_precipitation_min
+      - sensor.caiyun_day4_wind_max
+      - sensor.caiyun_day4_wind_avg
+      - sensor.caiyun_day4_wind_min
+      - sensor.caiyun_day4_wind_direction_max
+      - sensor.caiyun_day4_wind_direction_avg
+      - sensor.caiyun_day4_wind_direction_min
+
+  caiyunday:
+    name: 彩云日级天气
+    view: no
+    control: hidden
+    entities:
+      - group.caiyunday1
+      - group.caiyunday2
+      - group.caiyunday3
+      - group.caiyunday4
+      - group.caiyunday5
+
+
+
+
+
+
+homeassistant:
+  customize:
+    sensor.caiyun_realtime_temperature:
+      friendly_name: 温度
+      homebridge_hidden: true
+    sensor.caiyun_realtime_skycon:
+      friendly_name: 彩云Skycon
+      homebridge_hidden: true
+    sensor.caiyun_realtime_cloudrate:
+      friendly_name: 云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_realtime_aqi:
+      friendly_name: 空气质量指数aqi
+      homebridge_hidden: true
+    sensor.caiyun_realtime_humidity:
+      friendly_name: 湿度
+      homebridge_hidden: true
+    sensor.caiyun_realtime_pm25:
+      friendly_name: PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_precipitation_nearest_precipitation_distance:
+      friendly_name: 附近降雨带距离
+      homebridge_hidden: true
+    sensor.caiyun_precipitation_nearest_precipitation_intensity:
+      friendly_name: 附近降雨带降雨量
+      homebridge_hidden: true
+    sensor.caiyun_precipitation_local_precipitation_intensity:
+      friendly_name: 所在地降雨量
+      homebridge_hidden: true
+    sensor.caiyun_precipitation_local_datasource:
+      friendly_name: 数据来源
+      homebridge_hidden: true
+    sensor.caiyun_precipitation_wind_direction:
+      friendly_name: 风向
+      homebridge_hidden: true
+    sensor.caiyun_precipitation_wind_speed:
+      friendly_name: 风速
+      homebridge_hidden: true
+
+    sensor.caiyun_hourly_skycon:
+      friendly_name: 彩云Skycon
+      homebridge_hidden: true
+    sensor.caiyun_hourly_cloudrate:
+      friendly_name: 云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_hourly_aqi:
+      friendly_name: 空气质量指数aqi
+      homebridge_hidden: true
+    sensor.caiyun_hourly_humidity:
+      friendly_name: 湿度
+      homebridge_hidden: true
+    sensor.caiyun_hourly_pm25:
+      friendly_name: PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_hourly_precipitation:
+      friendly_name: 降雨量
+      homebridge_hidden: true
+    sensor.caiyun_hourly_wind:
+      friendly_name: 风速
+      homebridge_hidden: true
+    sensor.caiyun_hourly_temperature:
+      friendly_name: 温度
+      homebridge_hidden: true
+
+    sensor.caiyun_minutely_description:
+      friendly_name: 分钟级概况
+      homebridge_hidden: true
+    sensor.caiyun_minutely_probability_0:
+      friendly_name: 30分钟降雨概率
+      homebridge_hidden: true
+    sensor.caiyun_minutely_probability_1:
+      friendly_name: 60分钟降雨概率
+      homebridge_hidden: true
+    sensor.caiyun_minutely_probability_2:
+      friendly_name: 90分钟降雨概率
+      homebridge_hidden: true
+    sensor.caiyun_minutely_probability_3:
+      friendly_name: 120分钟降雨概率
+      homebridge_hidden: true
+    sensor.caiyun_minutely_probability_4:
+      friendly_name: 180分钟降雨概率
+      homebridge_hidden: true
+    sensor.caiyun_minutely_probability_5:
+      friendly_name: 240分钟降雨概率
+      homebridge_hidden: true
+
+    sensor.caiyun_daily_coldrisk:
+      friendly_name: 感冒概率
+      homebridge_hidden: true
+    sensor.caiyun_daily_temperature_max:
+      friendly_name: 最高气温
+      homebridge_hidden: true
+    sensor.caiyun_daily_temperature_avg:
+      friendly_name: 平均气温
+      homebridge_hidden: true
+    sensor.caiyun_daily_temperature_min:
+      friendly_name: 最低气温
+      homebridge_hidden: true
+    sensor.caiyun_daily_skycon:
+      friendly_name: 彩云Skycon
+      homebridge_hidden: true
+    sensor.caiyun_daily_cloudrate_max:
+      friendly_name: 最大云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_daily_cloudrate_avg:
+      friendly_name: 平均云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_daily_cloudrate_min:
+      friendly_name: 最低云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_daily_aqi_max:
+      friendly_name: 最高aqi
+      homebridge_hidden: true
+    sensor.caiyun_daily_aqi_avg:
+      friendly_name: 平均aqi
+      homebridge_hidden: true
+    sensor.caiyun_daily_aqi_min:
+      friendly_name: 最低aqi
+      homebridge_hidden: true
+    sensor.caiyun_daily_humidity_max:
+      friendly_name: 最高湿度
+      homebridge_hidden: true
+    sensor.caiyun_daily_humidity_avg:
+      friendly_name: 平均湿度
+      homebridge_hidden: true
+    sensor.caiyun_daily_humidity_min:
+      friendly_name: 最低湿度
+      homebridge_hidden: true
+    sensor.caiyun_daily_sunset:
+      friendly_name: 日落时间
+      homebridge_hidden: true
+    sensor.caiyun_daily_sunrise:
+      friendly_name: 日出时间
+      homebridge_hidden: true
+    sensor.caiyun_daily_ultraviolet:
+      friendly_name: 紫外线
+      homebridge_hidden: true
+    sensor.caiyun_daily_pm25_max:
+      friendly_name: 最大PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_daily_pm25_avg:
+      friendly_name: 平均PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_daily_pm25_min:
+      friendly_name: 最低PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_daily_dressing:
+      friendly_name: 衣着建议
+      homebridge_hidden: true
+    sensor.caiyun_daily_carwashing:
+      friendly_name: 洗车建议
+      homebridge_hidden: true
+    sensor.caiyun_daily_precipitation_max:
+      friendly_name: 最高降雨量
+      homebridge_hidden: true
+    sensor.caiyun_daily_precipitation_avg:
+      friendly_name: 平均降雨量
+      homebridge_hidden: true
+    sensor.caiyun_daily_precipitation_min:
+      friendly_name: 最低降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day1_coldrisk:
+      friendly_name: 感冒概率
+      homebridge_hidden: true
+    sensor.caiyun_day1_temperature_max:
+      friendly_name: 最高气温
+      homebridge_hidden: true
+    sensor.caiyun_day1_temperature_avg:
+      friendly_name: 平均气温
+      homebridge_hidden: true
+    sensor.caiyun_day1_temperature_min:
+      friendly_name: 最低气温
+      homebridge_hidden: true
+    sensor.caiyun_day1_skycon:
+      friendly_name: 彩云Skycon
+      homebridge_hidden: true
+    sensor.caiyun_day1_cloudrate_max:
+      friendly_name: 最大云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day1_cloudrate_avg:
+      friendly_name: 平均云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day1_cloudrate_min:
+      friendly_name: 最低云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day1_aqi_max:
+      friendly_name: 最高aqi
+      homebridge_hidden: true
+    sensor.caiyun_day1_aqi_avg:
+      friendly_name: 平均aqi
+      homebridge_hidden: true
+    sensor.caiyun_day1_aqi_min:
+      friendly_name: 最低aqi
+      homebridge_hidden: true
+    sensor.caiyun_day1_humidity_max:
+      friendly_name: 最高湿度
+      homebridge_hidden: true
+    sensor.caiyun_day1_humidity_avg:
+      friendly_name: 平均湿度
+      homebridge_hidden: true
+    sensor.caiyun_day1_humidity_min:
+      friendly_name: 最低湿度
+      homebridge_hidden: true
+    sensor.caiyun_day1_sunset:
+      friendly_name: 日落时间
+      homebridge_hidden: true
+    sensor.caiyun_day1_sunrise:
+      friendly_name: 日出时间
+      homebridge_hidden: true
+    sensor.caiyun_day1_ultraviolet:
+      friendly_name: 紫外线
+      homebridge_hidden: true
+    sensor.caiyun_day1_pm25_max:
+      friendly_name: 最大PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day1_pm25_avg:
+      friendly_name: 平均PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day1_pm25_min:
+      friendly_name: 最低PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day1_dressing:
+      friendly_name: 衣着建议
+      homebridge_hidden: true
+    sensor.caiyun_day1_carwashing:
+      friendly_name: 洗车建议
+      homebridge_hidden: true
+    sensor.caiyun_day1_precipitation_max:
+      friendly_name: 最高降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day1_precipitation_avg:
+      friendly_name: 平均降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day1_precipitation_min:
+      friendly_name: 最低降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day2_coldrisk:
+      friendly_name: 感冒概率
+      homebridge_hidden: true
+    sensor.caiyun_day2_temperature_max:
+      friendly_name: 最高气温
+      homebridge_hidden: true
+    sensor.caiyun_day2_temperature_avg:
+      friendly_name: 平均气温
+      homebridge_hidden: true
+    sensor.caiyun_day2_temperature_min:
+      friendly_name: 最低气温
+      homebridge_hidden: true
+    sensor.caiyun_day2_skycon:
+      friendly_name: 彩云Skycon
+      homebridge_hidden: true
+    sensor.caiyun_day2_cloudrate_max:
+      friendly_name: 最大云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day2_cloudrate_avg:
+      friendly_name: 平均云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day2_cloudrate_min:
+      friendly_name: 最低云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day2_aqi_max:
+      friendly_name: 最高aqi
+      homebridge_hidden: true
+    sensor.caiyun_day2_aqi_avg:
+      friendly_name: 平均aqi
+      homebridge_hidden: true
+    sensor.caiyun_day2_aqi_min:
+      friendly_name: 最低aqi
+      homebridge_hidden: true
+    sensor.caiyun_day2_humidity_max:
+      friendly_name: 最高湿度
+      homebridge_hidden: true
+    sensor.caiyun_day2_humidity_avg:
+      friendly_name: 平均湿度
+      homebridge_hidden: true
+    sensor.caiyun_day2_humidity_min:
+      friendly_name: 最低湿度
+      homebridge_hidden: true
+    sensor.caiyun_day2_sunset:
+      friendly_name: 日落时间
+      homebridge_hidden: true
+    sensor.caiyun_day2_sunrise:
+      friendly_name: 日出时间
+      homebridge_hidden: true
+    sensor.caiyun_day2_ultraviolet:
+      friendly_name: 紫外线
+      homebridge_hidden: true
+    sensor.caiyun_day2_pm25_max:
+      friendly_name: 最大PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day2_pm25_avg:
+      friendly_name: 平均PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day2_pm25_min:
+      friendly_name: 最低PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day2_dressing:
+      friendly_name: 衣着建议
+      homebridge_hidden: true
+    sensor.caiyun_day2_carwashing:
+      friendly_name: 洗车建议
+      homebridge_hidden: true
+    sensor.caiyun_day2_precipitation_max:
+      friendly_name: 最高降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day2_precipitation_avg:
+      friendly_name: 平均降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day2_precipitation_min:
+      friendly_name: 最低降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day3_coldrisk:
+      friendly_name: 感冒概率
+      homebridge_hidden: true
+    sensor.caiyun_day3_temperature_max:
+      friendly_name: 最高气温
+      homebridge_hidden: true
+    sensor.caiyun_day3_temperature_avg:
+      friendly_name: 平均气温
+      homebridge_hidden: true
+    sensor.caiyun_day3_temperature_min:
+      friendly_name: 最低气温
+      homebridge_hidden: true
+    sensor.caiyun_day3_skycon:
+      friendly_name: 彩云Skycon
+      homebridge_hidden: true
+    sensor.caiyun_day3_cloudrate_max:
+      friendly_name: 最大云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day3_cloudrate_avg:
+      friendly_name: 平均云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day3_cloudrate_min:
+      friendly_name: 最低云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day3_aqi_max:
+      friendly_name: 最高aqi
+      homebridge_hidden: true
+    sensor.caiyun_day3_aqi_avg:
+      friendly_name: 平均aqi
+      homebridge_hidden: true
+    sensor.caiyun_day3_aqi_min:
+      friendly_name: 最低aqi
+      homebridge_hidden: true
+    sensor.caiyun_day3_humidity_max:
+      friendly_name: 最高湿度
+      homebridge_hidden: true
+    sensor.caiyun_day3_humidity_avg:
+      friendly_name: 平均湿度
+      homebridge_hidden: true
+    sensor.caiyun_day3_humidity_min:
+      friendly_name: 最低湿度
+      homebridge_hidden: true
+    sensor.caiyun_day3_sunset:
+      friendly_name: 日落时间
+      homebridge_hidden: true
+    sensor.caiyun_day3_sunrise:
+      friendly_name: 日出时间
+      homebridge_hidden: true
+    sensor.caiyun_day3_ultraviolet:
+      friendly_name: 紫外线
+      homebridge_hidden: true
+    sensor.caiyun_day3_pm25_max:
+      friendly_name: 最大PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day3_pm25_avg:
+      friendly_name: 平均PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day3_pm25_min:
+      friendly_name: 最低PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day3_dressing:
+      friendly_name: 衣着建议
+      homebridge_hidden: true
+    sensor.caiyun_day3_carwashing:
+      friendly_name: 洗车建议
+      homebridge_hidden: true
+    sensor.caiyun_day3_precipitation_max:
+      friendly_name: 最高降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day3_precipitation_avg:
+      friendly_name: 平均降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day3_precipitation_min:
+      friendly_name: 最低降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day4_coldrisk:
+      friendly_name: 感冒概率
+      homebridge_hidden: true
+    sensor.caiyun_day4_temperature_max:
+      friendly_name: 最高气温
+      homebridge_hidden: true
+    sensor.caiyun_day4_temperature_avg:
+      friendly_name: 平均气温
+      homebridge_hidden: true
+    sensor.caiyun_day4_temperature_min:
+      friendly_name: 最低气温
+      homebridge_hidden: true
+    sensor.caiyun_day4_skycon:
+      friendly_name: 彩云Skycon
+      homebridge_hidden: true
+    sensor.caiyun_day4_cloudrate_max:
+      friendly_name: 最大云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day4_cloudrate_avg:
+      friendly_name: 平均云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day4_cloudrate_min:
+      friendly_name: 最低云层覆盖率
+      homebridge_hidden: true
+    sensor.caiyun_day4_aqi_max:
+      friendly_name: 最高aqi
+      homebridge_hidden: true
+    sensor.caiyun_day4_aqi_avg:
+      friendly_name: 平均aqi
+      homebridge_hidden: true
+    sensor.caiyun_day4_aqi_min:
+      friendly_name: 最低aqi
+      homebridge_hidden: true
+    sensor.caiyun_day4_humidity_max:
+      friendly_name: 最高湿度
+      homebridge_hidden: true
+    sensor.caiyun_day4_humidity_avg:
+      friendly_name: 平均湿度
+      homebridge_hidden: true
+    sensor.caiyun_day4_humidity_min:
+      friendly_name: 最低湿度
+      homebridge_hidden: true
+    sensor.caiyun_day4_sunset:
+      friendly_name: 日落时间
+      homebridge_hidden: true
+    sensor.caiyun_day4_sunrise:
+      friendly_name: 日出时间
+      homebridge_hidden: true
+    sensor.caiyun_day4_ultraviolet:
+      friendly_name: 紫外线
+      homebridge_hidden: true
+    sensor.caiyun_day4_pm25_max:
+      friendly_name: 最大PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day4_pm25_avg:
+      friendly_name: 平均PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day4_pm25_min:
+      friendly_name: 最低PM2.5
+      homebridge_hidden: true
+    sensor.caiyun_day4_dressing:
+      friendly_name: 衣着建议
+      homebridge_hidden: true
+    sensor.caiyun_day4_carwashing:
+      friendly_name: 洗车建议
+      homebridge_hidden: true
+    sensor.caiyun_day4_precipitation_max:
+      friendly_name: 最高降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day4_precipitation_avg:
+      friendly_name: 平均降雨量
+      homebridge_hidden: true
+    sensor.caiyun_day4_precipitation_min:
+      friendly_name: 最低降雨量
+      homebridge_hidden: true
+    sensor.caiyun_minutely_precipitation:
+      friendly_name: 一小时逐分钟降雨量
+      homebridge_hidden: true
+    sensor.caiyun_minutely_precipitation_2h:
+      friendly_name: 两小时逐分钟降雨量
+      homebridge_hidden: true
+
+    sensor.caiyun_forecast_update_forecast_update:
+      friendly_name: 分钟级更新时间
+      homebridge_hidden: true
+    sensor.caiyun_realtime_update_realtime_update:
+      friendly_name: 实时天气更新时间
+      homebridge_hidden: true
+    script.download_caiyundata:
+      friendly_name: 更新天气数据
+      homebridge_hidden: true
+
+    sensor.caiyun_daily_wind_max:
+      friendly_name: 今日最大风速
+      homebridge_hidden: true
+    sensor.caiyun_daily_wind_avg:
+      friendly_name: 今日平均风速
+      homebridge_hidden: true
+    sensor.caiyun_daily_wind_min:
+      friendly_name: 今日最小风速
+      homebridge_hidden: true
+
+    sensor.caiyun_day1_wind_max:
+      friendly_name: 明日最大风速
+      homebridge_hidden: true
+    sensor.caiyun_day1_wind_avg:
+      friendly_name: 明日平均风速
+      homebridge_hidden: true
+    sensor.caiyun_day1_wind_min:
+      friendly_name: 明日最小风速
+      homebridge_hidden: true
+
+    sensor.caiyun_day2_wind_max:
+      friendly_name: 后日最大风速
+      homebridge_hidden: true
+    sensor.caiyun_day2_wind_avg:
+      friendly_name: 后日平均风速
+      homebridge_hidden: true
+    sensor.caiyun_day2_wind_min:
+      friendly_name: 后日最小风速
+      homebridge_hidden: true
+
+    sensor.caiyun_day3_wind_max:
+      friendly_name: 大后日最大风速
+      homebridge_hidden: true
+    sensor.caiyun_day3_wind_avg:
+      friendly_name: 大后日平均风速
+      homebridge_hidden: true
+    sensor.caiyun_day3_wind_min:
+      friendly_name: 大后日最小风速
+      homebridge_hidden: true
+
+    sensor.caiyun_day4_wind_max:
+      friendly_name: 第五日最大风速
+      homebridge_hidden: true
+    sensor.caiyun_day4_wind_avg:
+      friendly_name: 第五日平均风速
+      homebridge_hidden: true
+    sensor.caiyun_day4_wind_min:
+      friendly_name: 第五日最小风速
+      homebridge_hidden: true
+
+    sensor.caiyun_daily_wind_direction_max:
+      friendly_name: 最大风速风向
+      homebridge_hidden: true
+    sensor.caiyun_daily_wind_direction_avg:
+      friendly_name: 平均风速风向
+      homebridge_hidden: true
+    sensor.caiyun_daily_wind_direction_min:
+      friendly_name: 最小风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day1_wind_direction_max:
+      friendly_name: 最大风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day1_wind_direction_avg:
+      friendly_name: 平均风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day1_wind_direction_min:
+      friendly_name: 最小风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day2_wind_direction_max:
+      friendly_name: 最大风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day2_wind_direction_avg:
+      friendly_name: 平均风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day2_wind_direction_min:
+      friendly_name: 最小风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day3_wind_direction_max:
+      friendly_name: 最大风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day3_wind_direction_avg:
+      friendly_name: 平均风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day3_wind_direction_min:
+      friendly_name: 最小风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day4_wind_direction_max:
+      friendly_name: 最大风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day4_wind_direction_avg:
+      friendly_name: 平均风速风向
+      homebridge_hidden: true
+    sensor.caiyun_day4_wind_direction_min:
+      friendly_name: 最小风速风向
+      homebridge_hidden: true
+
+
+    sensor.caiyun_hourly_precipitation8h:
+      friendly_name: 8小时内最大降雨量
+      homebridge_hidden: true
+    sensor.caiyun_hourly_description:
+      friendly_name: 小时级概况
+      homebridge_hidden: true
+
+    sensor.caiyun_alarm_rainstorm:
+      friendly_name: 暴雨预警
+      homebridge_hidden: true
+    sensor.caiyun_alarm_precipitation:
+      friendly_name: 降雨预警
+      homebridge_hidden: true
+    sensor.caiyun_alarm_typhoon:
+      friendly_name: 台风预警
+      homebridge_hidden: true
+    sensor.caiyun_alarm_aqi:
+      friendly_name: aqi预警
+      homebridge_hidden: true
+    sensor.caiyun_alarm_pm25:
+      friendly_name: pm25预警
+      homebridge_hidden: true
+    sensor.caiyun_alarm_high_temp:
+      friendly_name: 高温预警
+      homebridge_hidden: true
+    sensor.caiyun_alarm_low_temp:
+      friendly_name: 低温预警
+      homebridge_hidden: true
+    sensor.caiyun_alert_alert:
+      friendly_name: 气象台污染预警
+      homebridge_hidden: true
+    sensor.caiyun_realtime_o3:
+      friendly_name: 臭氧
+      homebridge_hidden: true
+    sensor.caiyun_realtime_co:
+      friendly_name: 一氧化碳
+      homebridge_hidden: true
+    sensor.caiyun_realtime_pm10:
+      friendly_name: PM1.0
+      homebridge_hidden: true
+    sensor.caiyun_realtime_no2:
+      friendly_name: 二氧化氮
+      homebridge_hidden: true
+    sensor.caiyun_realtime_pres:
+      friendly_name: 大气压
+      homebridge_hidden: true
+    sensor.caiyun_realtime_so2:
+      friendly_name: 二氧化硫
+      homebridge_hidden: true
+automation:
+  - alias: caiyun_update
+    initial_state: true
+    trigger:
+      - platform: time
+        hours: '/1'
+        minutes: 1
+        seconds: 0
+      - platform: time
+        hours: '/1'
+        minutes: 31
+        seconds: 0
+    condition:
+      condition: time
+      after: '07:05:00'
+      before: '23:35:00'
+    action:
+      - service: sensor.download_caiyun_weatherdata_forecast
+      - delay: 00:00:03
+      - service: sensor.download_caiyun_weatherdata_realtime

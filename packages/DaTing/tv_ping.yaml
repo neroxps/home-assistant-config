@@ -1,0 +1,21 @@
+binary_sensor:
+  - platform: ping
+    name: TV
+    host: 192.168.1.91
+    scan_interval: 15
+    count: 5
+    device_class: opening
+
+homeassistant:
+  customize:
+    binary_sensor.TV:
+      friendly_name: '电视机状态'
+      homebridge_hidden: false
+      icon: mdi:youtube-tv
+
+group:
+  DT_device_status:
+    view: no
+    name: '设备状态'
+    entities:
+      - binary_sensor.TV

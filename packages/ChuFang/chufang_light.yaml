@@ -1,0 +1,43 @@
+light:
+  ################################饭厅和厨房################################
+  #饭厅
+  - platform: mqtt
+    name: "fanting"
+    state_topic: "hassmart/switch/hassmart_2key_8C4423_1/state"
+    command_topic: "hassmart/switch/hassmart_2key_8C4423_1/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  
+  #厨房
+  - platform: mqtt
+    name: "chufang"
+    state_topic: "hassmart/switch/hassmart_2key_8C4423_2/state"
+    command_topic: "hassmart/switch/hassmart_2key_8C4423_2/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  
+homeassistant:
+  customize:
+    light.fanting:
+        friendly_name: '饭厅灯'
+        homebridge_hidden: false
+        homebridge_name: '饭厅灯'
+        icon: mdi:lightbulb
+    light.chufang:
+        friendly_name: '厨房灯'
+        homebridge_hidden: false
+        homebridge_name: '厨房灯'
+        icon: mdi:lightbulb
+
+group:
+  chufang_light_view:
+    view: no
+    name: '饭厅和厨房'
+    entities:
+      - light.fanting
+      - light.chufang
+

@@ -1,0 +1,57 @@
+################################卧室################################
+light:
+  #卧室灯
+  - platform: mqtt
+    name: "WS_Switch"
+    state_topic: "stat/WS_Switch/POWER"
+    command_topic: "cmnd/WS_Switch/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+
+homeassistant:
+  customize:
+    light.WS_Switch:
+      friendly_name: '卧室灯'
+      homebridge_hidden: false
+      homebridge_name: '卧室灯'
+      icon: mdi:lightbulb
+
+group:
+  woshi_light_view:
+    view: no
+    name: '卧室灯'
+    entities:
+      - light.WS_Switch
+
+automation:
+  - alias: WoShi Deng Kai #小米无线按钮开灯
+    trigger:
+      - platform: event
+        event_type: click
+        event_data:
+          entity_id: binary_sensor.wall_switch_158d00017115d5
+          click_type: single
+    condition:
+      condition: state
+      entity_id: light.ws_switch
+      state: 'off'
+    action:
+      service: light.turn_on
+      entity_id: light.ws_switch
+  
+  - alias: WoShi Deng Guan #小米无线按钮关灯
+    trigger:
+      - platform: event
+        event_type: click
+        event_data:
+          entity_id: binary_sensor.wall_switch_158d00017115d5
+          click_type: single
+    condition:
+      condition: state
+      entity_id: light.ws_switch
+      state: 'on'
+    action:
+      service: light.turn_off
+      entity_id: light.ws_switch

@@ -1,0 +1,5 @@
+Automation:
+  view: yes
+  name: '自动化'
+  entities:
+    - group.all_automations

@@ -1,0 +1,22 @@
+default_view:
+  view: yes
+  name: '常用控制'
+  entities:
+    - group.woshi_light_view
+    - group.dating_sensor_view
+    - group.dating_light_view
+    - group.dating_switch_view
+    - group.book_room_light
+    - group.bookroom_sensor_view
+    - sun.sun
+    - group.cctv_view
+    - group.family_member
+    - image_processing.facerec
+    - group.chufang_light_view
+    - sensor.woshi_wendu
+    - sensor.woshi_shidu
+    - sensor.ha_ver
+    - history_graph.ws_wendu_shidu
+    - climate.mi_acpartner
+    - sensor.esxi_disks_ssd2_space_use
+    - sensor.esxi_disks_data_space_use

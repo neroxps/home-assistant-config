@@ -1,0 +1,12 @@
+/tmall-bot-x1/*
+/.*/
+/deps/
+*.log
+.*
+!.gitignore
+known_devices.yaml
+/tts/*
+/faces/*
+*.bak
+/downloads/*
+secrets.yaml

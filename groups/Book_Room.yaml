@@ -1,0 +1,6 @@
+Book_Room:
+  view: yes
+  name: '书房'
+  entities:
+    - group.book_room_light
+    - group.bookroom_sensor_view

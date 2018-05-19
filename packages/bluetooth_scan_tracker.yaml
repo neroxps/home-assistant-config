@@ -1,0 +1,141 @@
+binary_sensor:
+  - platform: mqtt
+    name: "nero"
+    state_topic: "/ble/tracker/nero"
+    qos: 0
+    payload_on: "enter"
+    payload_off: "leave"
+    device_class: opening
+  - platform: mqtt
+    name: "rachel"
+    state_topic: "/ble/tracker/rachel"
+    qos: 0
+    payload_on: "enter"
+    payload_off: "leave"
+    device_class: opening
+  - platform: mqtt
+    name: "baba"
+    state_topic: "/ble/tracker/baba"
+    qos: 0
+    payload_on: "enter"
+    payload_off: "leave"
+    device_class: opening
+  - platform: mqtt
+    name: "mama"
+    state_topic: "/ble/tracker/mama"
+    qos: 0
+    payload_on: "enter"
+    payload_off: "leave"
+    device_class: opening
+  - platform: mqtt
+    name: "xiaomi3"
+    state_topic: "/ble/tracker/xiaomi3"
+    qos: 0
+    payload_on: "enter"
+    payload_off: "leave"
+    device_class: opening
+
+sensor:
+  - platform: template
+    sensors:
+      nero:
+        value_template: "{% if states.binary_sensor.nero%}
+          {% if is_state('binary_sensor.nero', 'on') %}
+            在家
+          {% else %}
+            离家
+          {% endif %}
+          {% else %}
+            未知
+          {% endif %}"
+        # friendly_name: "Nero"
+
+  - platform: template
+    sensors:
+      baba:
+        value_template: "{% if states.binary_sensor.baba%}
+          {% if is_state('binary_sensor.baba', 'on') %}
+            在家
+          {% else %}
+            离家
+          {% endif %}
+          {% else %}
+            未知
+          {% endif %}"
+        # friendly_name: "父亲"
+
+  - platform: template
+    sensors:
+      mama:
+        value_template: "{% if states.binary_sensor.mama%}
+          {% if is_state('binary_sensor.mama', 'on') %}
+            在家
+          {% else %}
+            离家
+          {% endif %}
+          {% else %}
+            未知
+          {% endif %}"
+        # friendly_name: "母亲"
+
+  - platform: template
+    sensors:
+      rachel:
+        value_template: "{% if states.binary_sensor.rachel%}
+          {% if is_state('binary_sensor.rachel', 'on') %}
+            在家
+          {% else %}
+            离家
+          {% endif %}
+          {% else %}
+            未知
+          {% endif %}"
+        # friendly_name: "Rachel"
+
+  - platform: template
+    sensors:
+      xiaomi3:
+        value_template: "{% if states.binary_sensor.xiaomi3%}
+          {% if is_state('binary_sensor.xiaomi3', 'on') %}
+            在家
+          {% else %}
+            离家
+          {% endif %}
+          {% else %}
+            未知
+          {% endif %}"
+        # friendly_name: "小米3"
+
+homeassistant:
+  customize:
+    sensor.nero:
+      friendly_name: 'Nero'
+      homebridge_hidden: true
+      icon: mdi:account
+    sensor.rachel:
+      friendly_name: 'Rachel'
+      homebridge_hidden: true
+      icon: mdi:account
+    sensor.baba:
+      friendly_name: '爸爸'
+      homebridge_hidden: true
+      icon: mdi:account
+    sensor.mama:
+      friendly_name: '妈妈'
+      homebridge_hidden: true
+      icon: mdi:account
+    sensor.xiaomi3:
+      friendly_name: '小米手机3'
+      homebridge_hidden: true
+      icon: mdi:account
+
+group:
+  family_member:
+    view: no
+    name: "家庭成员"
+    entities:
+      - sensor.nero
+      - sensor.rachel
+      - sensor.baba
+      - sensor.mama
+      - sensor.xiaomi3
