@@ -1,0 +1,57 @@
+input_number:
+  dafang_ptz_x:
+    name: X
+    initial: 1250
+    min: 0
+    max: 2500
+    step: 10
+  dafang_ptz_y:
+    name: Y
+    initial: 400
+    min: 0
+    max: 800
+    step: 10
+    
+# http://username:password@DAFANG_IP/cgi-bin/api.cgi?action=motor_PTZ&x_axis=1700&y_axis=400
+# http://username:password@DAFANG_IP/cgi-bin/api.cgi?action=motor_PTZ&x_axis={{ states("input_number.dafang_ptz_x") | int }}&y_axis={{ states("input_number.dafang_ptz_y") | int }}
+
+shell_command:
+  set_dafang_ptz: 'wget --output-document=/dev/null "http://{{ dafang_user }}:{{ dafang_passwd }}@192.168.1.108/cgi-bin/api.cgi?action=motor_PTZ&x_axis={{ states("input_number.dafang_ptz_x") | int }}&y_axis={{ states("input_number.dafang_ptz_y") | int }}"'
+  automation_ptz: 'wget --output-document=/dev/null "http://{{ dafang_user }}:{{ dafang_passwd }}@192.168.1.108/cgi-bin/api.cgi?action=motor_PTZ&x_axis={{ ptz_x }}&y_axis={{ ptz_y }}"'
+
+group:
+  dafang_ptz:
+    name: 大方云台控制
+    view: yes
+    entities:
+      - camera.home_cctv
+      - input_number.dafang_ptz_x
+      - input_number.dafang_ptz_y
+
+automation:
+  - alias: set_dafang_ptz
+    trigger:
+      - platform: state
+        entity_id: input_number.dafang_ptz_x
+      - platform: state
+        entity_id: input_number.dafang_ptz_y
+    action:
+      service: shell_command.set_dafang_ptz
+      data:
+        dafang_user: !secret dafang_user
+        dafang_passwd: !secret dafang_passwd
+  - alias: open_door_set_ptz
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.door_window_sensor_158d0001f9e7ad
+        from: 'off'
+        to: 'on'
+    action:
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.dafang_ptz_x
+        value: 1070
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.dafang_ptz_y
+        value: 400
