@@ -260,6 +260,11 @@ homeassistant:
       homebridge_hidden: true
       icon: mdi:image-filter-black-white
 
+    switch.dafang_ir_cut:
+      friendly_name: '红外滤片'
+      homebridge_hidden: true
+      icon: mdi:image-filter-black-white
+
     switch.dafang_rtsp_h264_server:
       friendly_name: 'RTSP H.264 模式'
       homebridge_hidden: true
