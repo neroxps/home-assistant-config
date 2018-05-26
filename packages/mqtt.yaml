@@ -6,4 +6,4 @@ mqtt:
   keepalive: 60
   username: nero
   password: nOZ6GsqcwqwCRV3m3JdZ
-  discovery: true
+  discovery: false

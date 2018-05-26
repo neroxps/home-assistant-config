@@ -15,7 +15,7 @@ automation:
               category: camera
             entity_id: camera.home_cctv
             hied-thumbnail: true
-      - service: hello_miai.send
-        data_template:
-          message: "欢迎主人回家。"
-          miai_num: "0"
+      # - service: hello_miai.send
+      #   data_template:
+      #     message: "欢迎主人回家。"
+      #     miai_num: "0"

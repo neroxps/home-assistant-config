@@ -43,6 +43,11 @@ history:
 # 在logbook查看所有的“已发生事项”
 logbook:
 
+logger:
+  default: info
+  logs:
+    homeassistant.components.shell_command: debug
+
 # 设置
 config:
 # Hass.io

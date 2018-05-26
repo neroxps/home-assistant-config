@@ -29,10 +29,6 @@ camera:
     name: "lt_cctv"
     input: !secret lt_cctv_rtsp_url
     extra_arguments: -max_muxing_queue_size 9999
-  - platform: ffmpeg
-    name: "home_cctv"
-    input: -rtsp_transport tcp -i rtsp://192.168.1.108:8554/unicast
-    extra_arguments: -max_muxing_queue_size 9999
 
 group:
   cctv_view:
