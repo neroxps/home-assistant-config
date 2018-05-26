@@ -1,0 +1,320 @@
+sensor:
+  #load_1_min
+  - platform: mqtt
+    name: "dafng_load_1_min"
+    state_topic: "myhome/dafang"
+    value_template: "{{ value_json.uptime | regex_findall_index( find='\\d\\.\\d+') }}"
+    unit_of_measurement: "%"
+  #load_5_min
+  - platform: mqtt
+    name: "dafng_load_5_min"
+    state_topic: "myhome/dafang"
+    value_template: "{{ value_json.uptime | regex_findall_index( find=', \\d\\.\\d+') | regex_replace( find=', ') }}"
+    unit_of_measurement: "%"
+  #load_15_min
+  - platform: mqtt
+    name: "dafng_load_15_min"
+    state_topic: "myhome/dafang"
+    value_template: "{{ value_json.uptime | regex_findall_index( find=', \\d\\.\\d+$') | regex_replace( find=', ') }}"
+    unit_of_measurement: "%"
+  #link_quality
+  - platform: mqtt
+    name: "dafng_link_quality"
+    state_topic: "myhome/dafang"
+    value_template: "{{ value_json.link_quality | regex_replace( find='%', replace='', ignorecase=False) | int }}"
+    unit_of_measurement: "%"
+  #brightness
+  - platform: mqtt
+    name: "dafng_brightness"
+    state_topic: "myhome/dafang/brightness"
+    unit_of_measurement: "%"
+
+switch:
+  #LED blue
+  - platform: mqtt
+    name: "dafang_leds_blue"
+    state_topic: "myhome/dafang/leds/blue"
+    command_topic: "myhome/dafang/leds/blue/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  #LED yellow
+  - platform: mqtt
+    name: "dafang_leds_yellow"
+    state_topic: "myhome/dafang/leds/yellow"
+    command_topic: "myhome/dafang/leds/yellow/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  #LED ir
+  - platform: mqtt
+    name: "dafang_leds_ir"
+    state_topic: "myhome/dafang/leds/ir"
+    command_topic: "myhome/dafang/leds/ir/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  #ir_cut
+  - platform: mqtt
+    name: "dafang_ir_cut"
+    state_topic: "myhome/dafang/ir_cut"
+    command_topic: "myhome/dafang/ir_cut/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  #rtsp_h264_server
+  - platform: mqtt
+    name: "dafang_rtsp_h264_server"
+    state_topic: "myhome/dafang/rtsp_h264_server"
+    command_topic: "myhome/dafang/rtsp_h264_server/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  #rtsp_mjpeg_server
+  - platform: mqtt
+    name: "dafang_rtsp_mjpeg_server"
+    state_topic: "myhome/dafang/rtsp_mjpeg_server"
+    command_topic: "myhome/dafang/rtsp_mjpeg_server/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  #night_mode
+  - platform: mqtt
+    name: "dafang_night_mode"
+    state_topic: "myhome/dafang/night_mode"
+    command_topic: "myhome/dafang/night_mode/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  #night_mode_auto
+  - platform: mqtt
+    name: "dafang_night_mode_auto"
+    state_topic: "myhome/dafang/night_mode/auto"
+    command_topic: "myhome/dafang/night_mode/auto/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  #motion_detection
+  - platform: mqtt
+    name: "dafang_motion_detection"
+    state_topic: "myhome/dafang/motion/detection"
+    command_topic: "myhome/dafang/motion/detection/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  #motion_tracking
+  - platform: mqtt
+    name: "dafang_motion_tracking"
+    state_topic: "myhome/dafang/motion/tracking"
+    command_topic: "myhome/dafang/motion/tracking/set"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+
+camera:
+  - platform: mqtt
+    name: 'dafang'
+    topic: "myhome/dafang/motion/snapshot"
+  - platform: ffmpeg
+    name: "home_cctv"
+    input: -rtsp_transport tcp -i rtsp://192.168.1.108:8554/unicast
+
+# 云台
+
+input_number:
+  dafang_ptz_x:
+    name: X
+    initial: 1250
+    min: 0
+    max: 2500
+    step: 10
+  dafang_ptz_y:
+    name: Y
+    initial: 400
+    min: 0
+    max: 800
+    step: 10
+    
+# http://username:password@DAFANG_IP/cgi-bin/api.cgi?action=motor_PTZ&x_axis=1700&y_axis=400
+# http://username:password@DAFANG_IP/cgi-bin/api.cgi?action=motor_PTZ&x_axis={{ states("input_number.dafang_ptz_x") | int }}&y_axis={{ states("input_number.dafang_ptz_y") | int }}
+
+shell_command:
+  set_dafang_ptz: 'wget --output-document=/dev/null "http://{{ dafang_user }}:{{ dafang_passwd }}@192.168.1.108/cgi-bin/api.cgi?action=motor_PTZ&x_axis={{ states("input_number.dafang_ptz_x") | int }}&y_axis={{ states("input_number.dafang_ptz_y") | int }}"'
+
+automation:
+  - alias: set_dafang_ptz
+    trigger:
+      - platform: state
+        entity_id: input_number.dafang_ptz_x
+      - platform: state
+        entity_id: input_number.dafang_ptz_y
+    action:
+      service: shell_command.set_dafang_ptz
+      data:
+        dafang_user: !secret dafang_user
+        dafang_passwd: !secret dafang_passwd
+  - alias: open_door_set_ptz
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.door_window_sensor_158d0001f9e7ad
+        from: 'off'
+        to: 'on'
+    action:
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.dafang_ptz_x
+        value: 1190
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.dafang_ptz_y
+        value: 400
+  - alias: motion_2
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f49309
+        from: 'off'
+        to: 'on'
+    action:
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.dafang_ptz_x
+        value: 1200
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.dafang_ptz_y
+        value: 400
+  - alias: callback_set_ptz
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.door_window_sensor_158d0001f9e7ad
+        from: 'on'
+        to: 'off'
+      - platform: state
+        entity_id: binary_sensor.motion_sensor_158d0001f49309
+        from: 'on'
+        to: 'off'
+    action:
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.dafang_ptz_x
+        value: 1500
+    - service: input_number.set_value
+      data:
+        entity_id: input_number.dafang_ptz_y
+        value: 400
+
+group:
+  dafang:
+    view: yes
+    name: '大方摄像机'
+    entities:
+      - switch.dafang_leds_blue
+      - switch.dafang_leds_yellow
+      - switch.dafang_leds_ir
+      - switch.dafang_ir_cut
+      - switch.dafang_rtsp_h264_server
+      - switch.dafang_rtsp_mjpeg_server
+      - switch.dafang_night_mode
+      - switch.dafang_night_mode_auto
+      - switch.dafang_motion_detection
+      - switch.dafang_motion_tracking
+      - sensor.dafng_load_1_min
+      - sensor.dafng_load_5_min
+      - sensor.dafng_load_15_min
+      - sensor.dafng_link_quality
+      - sensor.dafng_brightness
+      - camera.dafang
+      - group.dafang_ptz
+  dafang_ptz:
+    name: 大方云台控制
+    view: no
+    entities:
+      - camera.home_cctv
+      - input_number.dafang_ptz_x
+      - input_number.dafang_ptz_y
+
+homeassistant:
+  customize:
+    switch.dafang_leds_blue:
+      friendly_name: '蓝色LED'
+      homebridge_hidden: true
+      icon: mdi:led-on
+    
+    switch.dafang_leds_yellow:
+      friendly_name: '黄色LED'
+      homebridge_hidden: true
+      icon: mdi:led-on
+    
+    switch.dafang_leds_ir:
+      friendly_name: '红外灯'
+      homebridge_hidden: true
+      icon: mdi:image-filter-black-white
+
+    switch.dafang_rtsp_h264_server:
+      friendly_name: 'RTSP H.264 模式'
+      homebridge_hidden: true
+      icon: mdi:cctv
+
+    switch.dafang_rtsp_mjpeg_server:
+      friendly_name: 'RTSP MJPEG 模式'
+      homebridge_hidden: true
+      icon: mdi:cctv
+
+    switch.dafang_night_mode:
+      friendly_name: '黑夜模式'
+      homebridge_hidden: true
+      icon: mdi:weather-night
+
+    switch.dafang_night_mode_auto:
+      friendly_name: '自动切换夜晚模式'
+      homebridge_hidden: true
+      icon: mdi:weather-night
+
+    switch.dafang_motion_detection:
+      friendly_name: '运动检测'
+      homebridge_hidden: true
+      icon: mdi:run
+
+    switch.dafang_motion_tracking:
+      friendly_name: '运动跟踪'
+      homebridge_hidden: true
+      icon: mdi:run-fast
+
+    sensor.dafng_load_1_min:
+      friendly_name: 'cpu_1min'
+      homebridge_hidden: true
+      icon: mdi:select-inverse
+
+    sensor.dafng_load_5_min:
+      friendly_name: 'cpu_5min'
+      homebridge_hidden: true
+      icon: mdi:select-inverse
+
+    sensor.dafng_load_15_min:
+      friendly_name: 'cpu_15min'
+      homebridge_hidden: true
+      icon: mdi:select-inverse
+
+    sensor.dafng_link_quality:
+      friendly_name: '网络连接强度'
+      homebridge_hidden: true
+      icon: mdi:satellite-uplink
+
+    sensor.dafng_brightness:
+      friendly_name: '亮度'
+      homebridge_hidden: true
+      icon: mdi:brightness-5
+
+    camera.dafang:
+      friendly_name: '运动快照'
+      homebridge_hidden: true
