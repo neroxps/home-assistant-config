@@ -28,6 +28,16 @@ sensor:
     name: "dafng_brightness"
     state_topic: "myhome/dafang/brightness"
     unit_of_measurement: "%"
+binary_sensor:
+  # motion
+  - platform: mqtt
+    name: "dafang_motion"
+    state_topic: "myhome/dafang/motion"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
+
 
 switch:
   #LED blue
@@ -173,7 +183,7 @@ automation:
     - service: input_number.set_value
       data:
         entity_id: input_number.dafang_ptz_x
-        value: 1190
+        value: 970
     - service: input_number.set_value
       data:
         entity_id: input_number.dafang_ptz_y
@@ -188,7 +198,7 @@ automation:
     - service: input_number.set_value
       data:
         entity_id: input_number.dafang_ptz_x
-        value: 1200
+        value: 1000
     - service: input_number.set_value
       data:
         entity_id: input_number.dafang_ptz_y
@@ -207,7 +217,7 @@ automation:
     - service: input_number.set_value
       data:
         entity_id: input_number.dafang_ptz_x
-        value: 1500
+        value: 1200
     - service: input_number.set_value
       data:
         entity_id: input_number.dafang_ptz_y
@@ -218,6 +228,7 @@ group:
     view: yes
     name: '大方摄像机'
     entities:
+      - binary_sensor.dafang_motion
       - switch.dafang_leds_blue
       - switch.dafang_leds_yellow
       - switch.dafang_leds_ir
@@ -322,4 +333,8 @@ homeassistant:
 
     camera.dafang:
       friendly_name: '运动快照'
+      homebridge_hidden: true
+
+    binary_sensor.dafang_motion:
+      friendly_name: '大方运动传感器'
       homebridge_hidden: true
